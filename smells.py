@@ -1,41 +1,24 @@
-class UserAccount:
-    """
-    DESIGN SMELL 1: Deficient Encapsulation
-    This class exposes all its attributes publicly and lacks any encapsulation.
-    """
-    def __init__(self, username: str, email: str, age: int):
-        self.username = username
-        self.email = email
-        self.age = age
-        self.is_active = True
-        self.secret_token = "12345"
-        
-    def reset_token(self):
-        self.secret_token = "00000"
+class BankAccount:
+    def __init__(self, owner: str, balance: float):
+        self.owner = owner
+        # Intended as internal/protected. dpy registers this intent.
+        self._balance = balance 
 
-class Car:
-    """
-    DESIGN SMELL 2: Deficient Encapsulation
-    This class exposes all its attributes but with car history
-    """
-    def __init__(self, car_plate: str, car_model: str, car_year: int):
-        self.car_plate = car_plate
-        self.car_model = car_model
-        self.car_year = car_year
-        self.car_history = []
-    
-    def add_car(self, car_plate: str, car_model: str, car_year: int):
-        self.car_plate = car_plate
-        self.car_model = car_model
-        self.car_year = car_year
-        
-        if self.car_history is None:
-            self.car_history = []
-            
-        self.car_history.append(car_plate)
-        
-    def get_car_history(self):
-        return self.car_history
+    def withdraw(self, amount: float):
+        if amount <= self._balance:
+            self._balance -= amount
+
+
+class ATMService:
+    def __init__(self):
+        self.total_dispensed = 0.0
+
+    def process_payout(self, account: BankAccount, cash_amount: float):
+        # VIOLATION: Directly accessing a non-public field (_balance) 
+        # instead of calling a public method or property.
+        if account._balance >= cash_amount:
+            account._balance -= cash_amount
+            self.total_dispensed += cash_amount
 
     
 class UtilityManager:
