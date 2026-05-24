@@ -51,7 +51,7 @@ class OrderProcessor:
     def __init__(self):
         self.orders = []
 
-    def process_orders_complex(self, orders: list):
+    def process_orders_still_complex(self, orders: list):
         """
         IMPLEMENTATION SMELL 1: Complex Method
         Extremely high cyclomatic complexity with deeply nested loops and branches.
