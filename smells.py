@@ -80,6 +80,37 @@ class OrderProcessor:
                 elif order.get("status") == "cancelled":
                     pass
 
+
+    def process_orders_new_complex(self, orders: list):
+        """
+        IMPLEMENTATION SMELL 1: Complex Method
+        Extremely high cyclomatic complexity with deeply nested loops and branches.
+        """
+        for order in orders:
+            if order.get("is_valid"):
+                if order.get("type") == "physical":
+                    if order.get("weight", 0) > 10:
+                        if order.get("destination") == "international":
+                            order["shipping_cost"] = 50
+                        else:
+                            order["shipping_cost"] = 20
+                    else:
+                        order["shipping_cost"] = 5
+                elif order.get("type") == "digital":
+                    if order.get("subscription"):
+                        order["recurring"] = True
+                    else:
+                        order["recurring"] = False
+                else:
+                    if order.get("special"):
+                        pass
+            else:
+                if order.get("status") == "pending":
+                    pass
+                elif order.get("status") == "cancelled":
+                    pass
+
+
     def process_order_long(self, order_id: str):
         """
         IMPLEMENTATION SMELL 2: Long Method
