@@ -13,7 +13,31 @@ class UserAccount:
     def reset_token(self):
         self.secret_token = "00000"
 
+class Car:
+    """
+    DESIGN SMELL 2: Deficient Encapsulation
+    This class exposes all its attributes but with car history
+    """
+    def __init__(self, car_plate: str, car_model: str, car_year: int):
+        self.car_plate = car_plate
+        self.car_model = car_model
+        self.car_year = car_year
+        self.car_history = []
+    
+    def add_car(self, car_plate: str, car_model: str, car_year: int):
+        self.car_plate = car_plate
+        self.car_model = car_model
+        self.car_year = car_year
+        
+        if self.car_history is None:
+            self.car_history = []
+            
+        self.car_history.append(car_plate)
+        
+    def get_car_history(self):
+        return self.car_history
 
+    
 class UtilityManager:
     """
     DESIGN SMELL 2: Multifaceted Abstraction (or God Class)
